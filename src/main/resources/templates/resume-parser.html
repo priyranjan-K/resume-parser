@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload & Display Resume</title>
+    <link rel="stylesheet" th:href="@{/css/resume-parser.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg p-5 rounded w-100">
+        <h2 class="text-primary text-center mb-4">Upload & Display Resume</h2>
+
+        <!-- Upload Form -->
+        <form method="post" action="/upload" enctype="multipart/form-data" class="text-center">
+            <div class="upload-box mb-4">
+                <input type="file" name="resumeFile" accept=".pdf,.docx" id="fileInput" hidden required>
+                <label for="fileInput" class="btn btn-outline-primary">Choose File</label>
+                <p id="fileName" class="mt-2 text-muted">No file chosen</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Upload & Display</button>
+        </form>
+
+        <hr class="my-4">
+
+        <!-- Resume Display -->
+        <div id="resumeDisplay" th:if="${resumeData}" class="mt-4">
+            <h3 class="text-success">Extracted Resume Details</h3>
+            <p><strong>Name:</strong> <span th:text="${resumeData.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${resumeData.email}"></span></p>
+            <p><strong>Phone:</strong> <span th:text="${resumeData.phone}"></span></p>
+            <p><strong>Skills:</strong> <span th:text="${resumeData.skills}"></span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("fileInput").addEventListener("change", function() {
+        document.getElementById("fileName").innerText = this.files[0] ? this.files[0].name : "No file chosen";
+    });
+</script>
+
+</body>
+</html>
